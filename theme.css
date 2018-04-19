@@ -1,1 +1,19 @@
-the
+html, body {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+.outer {
+  height: 100vh;
+  display: flex;
+}
+.break-area {
+  height: auto;
+  flex: 1;
+  background-color: yellow;
+}
+.work-area {
+  height: auto;
+  flex: 1;
+  background-color: red;
+}
