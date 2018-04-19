@@ -1,40 +1,22 @@
-/*class timeObject {
-  constructor (time) {
-    this.minute = time.minute;
-    this.second = time.second;
-  }
-
-  function lessOneSecond () {
-    if (this.second > 0) {
-      this.second--;
-    } else if (this.minute > 0){
-      this.minute--;
-      this.second = 59;
-    }
-  }
-
-  function print () {
-    return this.minute + ":" + this.second < 10 ? "0" + this.second : this.second;
-  }
-
-  function isZero () {
-    return (this.minute + this.second) === 0;
-  }
-}*/
 const add = (total) => {
   return total + 1;
 };
 const less = (total) => {
-  return (total - 1) < 0 ? 0 : total - 1;
+  return (total - 1) < 1 ? 1 : total - 1;
 };
 const count = function () {
   this.counter = (this.counter + 1) % (60 * (this.total1 + this.total2));
 };
+const format = (amt) => {
+  let afterColon = amt % 60;
+  let prefix = (afterColon < 10) ? "0" : "";
+  return Math.trunc(amt / 60) + ":" + prefix + afterColon;
+}
 let app = new Vue ({
   el: "#app",
   data: {
-    total1: 0,
-    total2: 0,
+    total1: 5,
+    total2: 25,
     isOn: false,
     controller: null,
     counter: 0
@@ -48,16 +30,16 @@ let app = new Vue ({
     show1: function () {
       if (this.isOn && (this.counter > (this.total1 * 60))) {
         let sec = ((this.total1 + this.total2) * 60) - this.counter;
-        return Math.trunc(sec / 60) + ":" + (sec % 60);
+        return format(sec);
       }
-      return this.total1 + ":00";
+      return format(this.total1 * 60);
     },
     show2: function () {
       if (this.isOn && (this.counter <= (this.total2 * 60))) {
         let sec = (this.total2 * 60) - this.counter;
-        return Math.trunc(sec / 60) + ":" + (sec % 60);
+        return format(sec);
       }
-      return this.total2 + ":00";
+      return format(this.total2 * 60);
     }
   },
   watch: {
