@@ -12,18 +12,28 @@
       <!--<button v-on:click="isOn = false">Pause</button>-->
       <button v-on:click="isOn = false">Reset</button>
       <div class="outer">
-        <div class="break-area">
+        <div class="break-area"
+             v-bind:class="{darkBlue: darkBlue, lightBlue: lightBlue}">
           <div id="el1">Break Time</div>
-          <button v-on:click="add1">+</button>
+          <span v-on:click="add1"><i class="fa fa-caret-up"
+                                     v-bind:class="{seen: !isOn, unseen: isOn}">
+                                  </i></span>
           <div id="el2">{{show1.getStr}}</div>
-          <button v-on:click="less1">-</button>
+          <span v-on:click="less1"><i class="fa fa-caret-down"
+                                      v-bind:class="{seen: !isOn, unseen: isOn}">
+                                   </i></span>
           <div id="el3"><i class="fas fa-cloud"></i></div>
         </div>
-        <div class="work-area">
+        <div class="work-area"
+            v-bind:class="{darkOrange: darkOrange, lightOrange: lightOrange}">
           <div id="el4">Work Time</div>
-          <button v-on:click="add2">+</button>
+          <span v-on:click="add2"><i class="fa fa-caret-up"
+                                     v-bind:class="{seen: !isOn, unseen: isOn}">
+                                  </i></span>
           <div id="el5">{{show2.getStr}}</div>
-          <button v-on:click="less2">-</button>
+          <span v-on:click="less2"><i class="fa fa-caret-down"
+                                      v-bind:class="{seen: !isOn, unseen: isOn}">
+                                  </i></span>
           <div id="el6"><i class="far fa-clock"></i></div>
         </div>
       </div>

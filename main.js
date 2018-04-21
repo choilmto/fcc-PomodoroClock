@@ -6,16 +6,6 @@ let other = {
   count1: "count2",
   count2: "count1"
 }
-let bArray = [];
-bArray.push(document.getElementById("el1"));
-bArray.push(document.getElementById("el2"));
-bArray.push(document.getElementById("el3"));
-let wArray = [];
-wArray.push(document.getElementById("el4"));
-wArray.push(document.getElementById("el5"));
-wArray.push(document.getElementById("el6"));
-bArray.forEach((curr) => curr.style.color = "white");
-bArray.forEach(function (curr) {curr.style.color = "white";});
 const count = function () {
   if (this.state !== this[this.state].setLessASecond(this.state)) {
     this[this.state] = null;
@@ -62,11 +52,7 @@ let app = new Vue ({
     controller: null,
     state: "",
     count1: null,
-    count2: null,
-    elements: {
-      count1: bArray,
-      count2: wArray
-    }
+    count2: null
   },
   methods: {
     add1: function () {if (!this.isOn) {this.total1.setMoreAMin();}},
@@ -81,6 +67,18 @@ let app = new Vue ({
     },
     show2: function () {
       return this.count2 || this.total2;
+    },
+    darkBlue: function () {
+      return this.state === "count2";
+    },
+    darkOrange: function () {
+      return this.state === "count1";
+    },
+    lightBlue: function () {
+      return this.state === "count1";
+    },
+    lightOrange: function () {
+      return this.state === "count2";
     }
   },
   watch: {
@@ -100,10 +98,6 @@ let app = new Vue ({
         document.title = "POMODORO TIME!";
       } else {
         document.title = this.state.toUpperCase() + " TIME!";
-        console.log(this.elements[this.state][0]);
-        this.elements[this.state][0].style.color = "white";
-        this.elements[this.state].forEach(function (curr) {curr.style.color = "white";});
-        this.elements[other[this.state]].forEach(function (curr) {curr.style.color = "black";});
       }
     }
   }
