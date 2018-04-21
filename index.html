@@ -14,7 +14,8 @@
         <div class="break-area"
              v-bind:class="{darkBlue: darkBlue, lightBlue: lightBlue}">
           <span class="button"
-                v-on:click="isOn = !isOn"><i v-bind:class="{'fas fa-play-circle': !isOn, 'far fa-stop-circle': isOn}"></i></span>
+                v-on:click="isOn = !isOn"
+                style="color:#ff6347"><i v-bind:class="{'fas fa-play-circle': !isOn, 'far fa-stop-circle': isOn}"></i></span>
           <div class="content">
             <div id="el1">Break Time</div>
             <span v-on:click="add1"><i class="fa fa-caret-up"

@@ -45,6 +45,9 @@ html, body {
   background-color: #FB9C6C;
   color: white;
 }
+.seen {
+  color: #ff6347;
+}
 .seen:hover {
   cursor: pointer;
 }
