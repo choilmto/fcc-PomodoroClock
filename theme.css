@@ -54,6 +54,11 @@ html, body {
 .unseen {
   visibility: hidden;
 }
+.button {
+  color:#ff6347;
+  opacity: 1 !important;
+  font-size: 1.5em;
+}
 .button:hover {
   cursor: pointer;
 }

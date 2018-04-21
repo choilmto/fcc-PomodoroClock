@@ -8,14 +8,13 @@
   <body>
 
     <div id="app">
-      <!--<button v-on:click="isOn = true">Start</button>
-      <button v-on:click="isOn = false">Reset</button>-->
+      <div class="outer" style="z-index: 1; position: absolute; justify-content: center; width: 100vw">
+        <span class="button content"
+              v-on:click="isOn = !isOn"><i v-bind:class="{'fas fa-play': !isOn, 'fas fa-square': isOn}"></i></span>
+      </div>
       <div class="outer">
         <div class="break-area"
              v-bind:class="{darkBlue: darkBlue, lightBlue: lightBlue}">
-          <span class="button"
-                v-on:click="isOn = !isOn"
-                style="color:#ff6347"><i v-bind:class="{'fas fa-play-circle': !isOn, 'far fa-stop-circle': isOn}"></i></span>
           <div class="content">
             <div id="el1">Break Time</div>
             <span v-on:click="add1"><i class="fa fa-caret-up"
