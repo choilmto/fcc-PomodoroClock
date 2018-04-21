@@ -2,24 +2,25 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="theme.css">
+    <title>POMODORO TIME</title>
   </head>
   <body>
     <div id="app">
       <button v-on:click="isOn = true">Start</button>
       <!--<button v-on:click="isOn = false">Pause</button>-->
-      <button v-on:click="isOn = false">Restart</button>
+      <button v-on:click="isOn = false">Reset</button>
       <div class="outer">
         <div class="break-area">
           <div>Break Time</div>
-          <button v-on:click="total1 = isOn ? total1 : add(total1)">+</button>
-          <div>{{show1}}</div>
-          <button v-on:click="total1 = isOn ? total1 : less(total1)">-</button>
+          <button v-on:click="add1">+</button>
+          <div>{{show1.getStr}}</div>
+          <button v-on:click="less1">-</button>
         </div>
         <div class="work-area">
           <div>Work Time</div>
-          <button v-on:click="total2 = isOn ? total2 : add(total2)">+</button>
-          <div>{{show2}}</div>
-          <button v-on:click="total2 = isOn ? total2 : less(total2)">-</button>
+          <button v-on:click="add2">+</button>
+          <div>{{show2.getStr}}</div>
+          <button v-on:click="less2">-</button>
         </div>
       </div>
     </div>
