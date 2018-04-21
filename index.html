@@ -2,25 +2,29 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="theme.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
     <title>POMODORO TIME</title>
   </head>
   <body>
+
     <div id="app">
       <button v-on:click="isOn = true">Start</button>
       <!--<button v-on:click="isOn = false">Pause</button>-->
       <button v-on:click="isOn = false">Reset</button>
       <div class="outer">
         <div class="break-area">
-          <div>Break Time</div>
+          <div id="el1">Break Time</div>
           <button v-on:click="add1">+</button>
-          <div>{{show1.getStr}}</div>
+          <div id="el2">{{show1.getStr}}</div>
           <button v-on:click="less1">-</button>
+          <div id="el3"><i class="fas fa-cloud"></i></div>
         </div>
         <div class="work-area">
-          <div>Work Time</div>
+          <div id="el4">Work Time</div>
           <button v-on:click="add2">+</button>
-          <div>{{show2.getStr}}</div>
+          <div id="el5">{{show2.getStr}}</div>
           <button v-on:click="less2">-</button>
+          <div id="el6"><i class="far fa-clock"></i></div>
         </div>
       </div>
     </div>

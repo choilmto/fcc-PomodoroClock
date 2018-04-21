@@ -6,13 +6,22 @@ let other = {
   count1: "count2",
   count2: "count1"
 }
+let bArray = [];
+bArray.push(document.getElementById("el1"));
+bArray.push(document.getElementById("el2"));
+bArray.push(document.getElementById("el3"));
+let wArray = [];
+wArray.push(document.getElementById("el4"));
+wArray.push(document.getElementById("el5"));
+wArray.push(document.getElementById("el6"));
+bArray.forEach((curr) => curr.style.color = "white");
+bArray.forEach(function (curr) {curr.style.color = "white";});
 const count = function () {
   if (this.state !== this[this.state].setLessASecond(this.state)) {
     this[this.state] = null;
     this.state = other[this.state];
     this[this.state] = new timeObjectClass(this[connect[this.state]]);
   }
-
 };
 class timeObjectClass {
   constructor (obj) {
@@ -53,7 +62,11 @@ let app = new Vue ({
     controller: null,
     state: "",
     count1: null,
-    count2: null
+    count2: null,
+    elements: {
+      count1: bArray,
+      count2: wArray
+    }
   },
   methods: {
     add1: function () {if (!this.isOn) {this.total1.setMoreAMin();}},
@@ -83,7 +96,15 @@ let app = new Vue ({
       }
     },
     state: function () {
-      document.title = (this.state.toUpperCase() || "POMODORO") + " TIME!";
+      if (this.state === "") {
+        document.title = "POMODORO TIME!";
+      } else {
+        document.title = this.state.toUpperCase() + " TIME!";
+        console.log(this.elements[this.state][0]);
+        this.elements[this.state][0].style.color = "white";
+        this.elements[this.state].forEach(function (curr) {curr.style.color = "white";});
+        this.elements[other[this.state]].forEach(function (curr) {curr.style.color = "black";});
+      }
     }
   }
 });

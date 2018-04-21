@@ -10,10 +10,10 @@ html, body {
 .break-area {
   height: auto;
   flex: 1;
-  background-color: yellow;
+  background-color: #FB9C6C;
 }
 .work-area {
   height: auto;
   flex: 1;
-  background-color: red;
+  background-color: #31809F;
 }
