@@ -1,49 +1,62 @@
 html, body {
+  font-family: Courier, Courier New, Lucida Sans Typewriter, Lucida Typewriter, monospace;
+  font-size: 2em;
   height: 100vh;
   margin: 0;
   padding: 0;
-  font-family: Courier, Courier New, Lucida Sans Typewriter, Lucida Typewriter, monospace;
-  font-size: 2em;
 }
-.outer {
+.break-area--default {
+  background-color: #31809F;
+}
+.flex-container {
+  display: flex;
   height: 100vh;
-  display: flex;
 }
-.content {
-  height: auto;
-  align-self: center;
-}
-.break-area {
-  height: auto;
+.flex-container__div--side {
   flex: 1;
-  background-color: #31809F;
-  text-align: center;
-  display: flex;
-  justify-content: space-around;
-}
-.work-area {
   height: auto;
-  flex: 1;
-  background-color: #FB9C6C;
-  text-align: center;
-  display: flex;
   justify-content: center;
+  text-align: center;
 }
-.darkBlue {
-  background-color: #184D68;
-  color: black;
+.flex-container__div--center {
+  align-self: center;
+  height: auto;
 }
-.darkOrange {
-  background-color: #D55121
-  color: black;
+.flex-container__span{
+  align-self: center;
+  height: auto;
 }
-.lightBlue {
-  background-color: #31809F;
-  color: white;
+.start-stop {
+  justify-content: center;
+  position: absolute;
+  width: 100vw;
+  z-index: 1;
 }
-.lightOrange {
+.start-stop__span {
+  color:#FF6347;
+  font-size: 1.5em;
+}
+.pointer:hover {
+  cursor: pointer;
+}
+.work-area--default {
   background-color: #FB9C6C;
+}
+.break-area--darkBlue {
+  color: black;
+  background-color: #184D68;
+}
+.break-area--lightBlue {
   color: white;
+  background-color: #31809F;
+}
+.work-area--darkOrange {
+  color: black;
+  background-color: #D55121
+}
+.work-area--lightOrange {
+  color: white;
+  background-color: #FB9C6C;
 }
 .seen {
   color: #ff6347;
@@ -53,12 +66,4 @@ html, body {
 }
 .unseen {
   visibility: hidden;
-}
-.button {
-  color:#ff6347;
-  opacity: 1 !important;
-  font-size: 1.5em;
-}
-.button:hover {
-  cursor: pointer;
 }
