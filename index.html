@@ -10,62 +10,18 @@
       <div class="flex-container start-stop">
         <span class="flex-container__span start-stop__span">
           <i class="pointer"
-             v-bind:class="{'fas fa-play': !isOn, 'fas fa-square': isOn}"
-             v-on:click="isOn = !isOn">
+             v-bind:class="{'fas fa-play': !isTimerOn, 'fas fa-square': isTimerOn}"
+             v-on:click="switchTimer">
           </i>
         </span>
       </div>
       <div class="flex-container">
-        <div class="break-area--default flex-container flex-container__div--side"
-             v-bind:class="{'break-area--darkBlue': darkBlue, 'break-area--lightBlue': lightBlue}">
-          <div class="flex-container__div--center">
-            <div id="el1">
-              Break Time
-            </div>
-            <span v-on:click="add1">
-              <i class="fa fa-caret-up"
-                 v-bind:class="{'seen': !isOn, 'unseen': isOn}">
-              </i>
-            </span>
-            <div id="el2">
-              {{show1.getStr}}
-            </div>
-            <span v-on:click="less1">
-              <i class="fa fa-caret-down"
-                 v-bind:class="{'seen': !isOn, 'unseen': isOn}">
-              </i>
-            </span>
-            <div id="el3">
-              <i class="fas fa-cloud">
-              </i>
-            </div>
-          </div>
-        </div>
-        <div class="work-area--default flex-container flex-container__div--side"
-             v-bind:class="{'work-area--darkOrange': darkOrange, 'break-area--lightOrange': lightOrange}">
-          <div class="flex-container__div--center">
-            <div id="el4">
-              Work Time
-            </div>
-            <span v-on:click="add1">
-              <i class="fa fa-caret-up"
-                 v-bind:class="{'seen': !isOn, 'unseen': isOn}">
-              </i>
-            </span>
-            <div id="el5">
-              {{show2.getStr}}
-            </div>
-            <span v-on:click="less1">
-              <i class="fa fa-caret-down"
-                 v-bind:class="{'seen': !isOn, 'unseen': isOn}">
-              </i>
-            </span>
-            <div id="el6">
-              <i class="fas fa-stopwatch">
-              </i>
-            </div>
-          </div>
-        </div>
+        <timer-area
+          v-for="timer in timers"
+          v-bind:is-timer-on="isTimerOn"
+          v-bind:mode="mode"
+          v-bind:timer="timer"
+        ></timer-area>
       </div>
     </div>
     <script src="vue.js"></script>

@@ -1,104 +1,167 @@
-let connect = {
-  count1: "total1",
-  count2: "total2"
-}
-let other = {
-  count1: "count2",
-  count2: "count1"
-}
-const count = function () {
-  if (this.state !== this[this.state].setLessASecond(this.state)) {
-    this[this.state] = null;
-    this.state = other[this.state];
-    this[this.state] = new timeObjectClass(this[connect[this.state]]);
+const ONEMINUTEINSECONDS = 60;
+let changeTitle = function () {
+  if (this.mode === "") {
+    document.title = "POMODORO TIME!";
+  } else {
+    document.title = this.mode.toUpperCase() + " TIME!";
   }
 };
-class timeObjectClass {
-  constructor (obj) {
-    this.min = obj.min;
-    this.sec = obj.sec;
+let countDown = function () {
+  if (this.timer.remainingDuration === 0) {
+    this.timer.remainingDuration = null;
+    clearInterval(this.controller);
+    this.$dispatch("switch-mode", this.timer.description);
   }
-  setLessASecond (st) {
-    if (this.sec === 0) {
-      if (this.min > 0) {
-        this.min--;
-        this.sec = 60;
-      } else {
-        return other[st];
-      }
-    }
-    this.sec--;
-    return st;
+  this.timer.remainingDuration -= 1;
+}
+let computedCSSClasses = function () {
+  let temp = {};
+  temp[this.timer.CSSClasses.static] = (this.mode === "") && !this.isTimerOn;
+  temp[this.timer.CSSClasses.on] = (this.mode === this.timer.description) && this.isTimerOn;
+  temp[this.timer.CSSClasses.off] = (this.mode !== this.timer.description) && this.isTimerOn;
+  return temp;
+};
+let decrementByOneMinute = function (duration) {
+  return (duration > 60) ? (duration - 60) : 60;
+};
+let formatTimerDisplay = function (timerDisplay) {
+  let seconds = timerDisplay % 60;
+  return Math.trunc(timerDisplay / 60) + ":" + ((seconds < 10) ? "0" : "") + seconds;
+};
+let incrementByOneMinute = function (duration) {
+  return duration + 60;
+};
+let startOrStop = function () {
+  if ((this.mode === this.timer.description) && this.isTimerOn) {
+    this.timer.remainingDuration = this.timer.fullDuration;
+    this.controller = setInterval(this.countDown.bind(this), 1000);
+  } else if (!this.isTimerOn) {
+    this.timer.remainingDuration = null;
+    clearInterval(this.controller);
   }
-  setMoreAMin () {
-    this.min++;
-  }
-  setLessAMin () {
-    this.min = (this.min > 1) ? (this.min - 1) : 1;
-  }
-  get isZero () {
-    return ((this.min === 0) && (this.sec === 0));
-  }
-  get getStr () {
-    return this.min + ":" + ((this.sec < 10) ? "0" : "") + this.sec;
+};
+let switchMode = function (currentMode) {
+  if (currentMode === "break") {
+    mode = "work";
+  } else if (currentMode === "work") {
+    mode = "break";
   }
 }
+let switchTimer = function () {
+  if (this.isTimerOn) {
+    this.mode = "";
+  } else {
+    this.mode = "work";
+  }
+  this.isTimerOn = !this.isTimerOn;
+}
+let timerDisplay = function () {
+  return this.timer.remainingDuration || this.timer.fullDuration;
+};
+const buttonSpecs = {
+  increment: {
+    fontAwesomeIcon: "fa fa-caret-up",
+    operation: incrementByOneMinute
+  },
+  decrement: {
+    fontAwesomeIcon: "fa fa-caret-down",
+    operation: decrementByOneMinute
+  }
+};
+const areaSpecs = {
+  break: {  //description matches key
+    CSSClasses: {
+      static: "break-area--default",
+      off: 'break-area--darkBlue',
+      on: 'break-area--lightBlue'
+    },
+    description: "break",
+    fontAwesomeIcon: "fas fa-cloud",
+    fullDuration: 5 * ONEMINUTEINSECONDS,
+    remainingDuration: null
+  },
+  work: {
+    CSSClasses: {
+      static: "work-area--default",
+      off: 'work-area--darkOrange',
+      on: 'work-area--lightOrange'
+    },
+    description: "work",
+    fontAwesomeIcon: "fas fa-check",
+    fullDuration: 25 * ONEMINUTEINSECONDS,
+    remainingDuration: null
+  }
+};
+Vue.component("timer-operator", {
+  props: ["button", "isTimerOn"],
+  template: `
+              <span v-on:click="$emit('change-full-duration', button.operation)">
+                <i class="pointer"
+                   v-bind:class="[{'seen': !isTimerOn, 'unseen': isTimerOn}, button.fontAwesomeIcon]">
+                </i>
+              </span>
+            `
+});
+Vue.component("timer-area", {
+  computed: {
+    computedCSSClasses: computedCSSClasses,
+    timerDisplay: timerDisplay
+  },
+  data: function () {
+    return {
+      buttonSpecs: buttonSpecs,
+      controller: null
+    };
+  },
+  methods: {
+    countDown: countDown,
+    formatTimerDisplay: formatTimerDisplay
+  },
+  watch: {
+    isTimerOn: startOrStop
+  },
+  props: ["isTimerOn", "mode", "timer"],
+  template: `
+              <div class="flex-container flex-container__div--side"
+                v-bind:class="computedCSSClasses">
+                <div class="flex-container__div--center">
+                  <div>
+                    {{timer.description}}
+                  </div>
+                  <timer-operator
+                    v-bind:button="buttonSpecs.increment"
+                    v-bind:is-timer-on="isTimerOn"
+                    v-on:change-full-duration="timer.fullDuration=$event(timer.fullDuration)"/>
+                  <div>
+                    {{formatTimerDisplay(timerDisplay)}}
+                  </div>
+                  <timer-operator
+                    v-bind:button="buttonSpecs.decrement"
+                    v-bind:is-timer-on="isTimerOn"
+                    v-on:change-full-duration="timer.fullDuration=$event(timer.fullDuration)"/>
+                  <div>
+                    <i v-bind:class="timer.fontAwesomeIcon"/>
+                  </div>
+                </div>
+              </div>
+            `
+});
 let app = new Vue ({
   el: "#app",
   data: {
-    total1: new timeObjectClass({min: 5, sec: 0}),
-    total2: new timeObjectClass({min: 25, sec: 0}),
-    isOn: false,
-    controller: null,
-    state: "",
-    count1: null,
-    count2: null
+    isTimerOn: false,
+    mode: "", //"break" or "work"
+    timers: areaSpecs,
+    work: areaSpecs.work
+  },
+  events: {
+    "switch-mode": switchMode
   },
   methods: {
-    add1: function () {if (!this.isOn) {this.total1.setMoreAMin();}},
-    less1: function () {if (!this.isOn) {this.total1.setLessAMin();}},
-    add2: function () {if (!this.isOn) {this.total2.setMoreAMin();}},
-    less2: function () {if (!this.isOn) {this.total2.setLessAMin();}},
-    count: count
-  },
-  computed: {
-    show1: function () {
-      return this.count1 || this.total1;
-    },
-    show2: function () {
-      return this.count2 || this.total2;
-    },
-    darkBlue: function () {
-      return this.state === "count2";
-    },
-    darkOrange: function () {
-      return this.state === "count1";
-    },
-    lightBlue: function () {
-      return this.state === "count1";
-    },
-    lightOrange: function () {
-      return this.state === "count2";
-    }
+    switchTimer: switchTimer
   },
   watch: {
-    isOn: function () {
-      if (this.isOn) {
-        this.state = "count2";
-        this.count2 = new timeObjectClass(this.total2);
-        this.controller = setInterval(this.count.bind(this), 1000);
-      } else {
-        clearInterval(this.controller);
-        this[this.state] = null;
-        this.state = "";
-      }
-    },
-    state: function () {
-      if (this.state === "") {
-        document.title = "POMODORO TIME!";
-      } else {
-        document.title = this.state.toUpperCase() + " TIME!";
-      }
-    }
+    mode: changeTitle
   }
 });
+//
