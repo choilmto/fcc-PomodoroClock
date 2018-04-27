@@ -26,18 +26,16 @@ html, body {
   align-self: center;
   height: auto;
 }
-.start-stop {
-  justify-content: center;
-  position: fixed;
-  width: 100vw;
-  z-index: 100;
-}
-.start-stop__span {
-  color:#FF6347;
-  font-size: 1.5em;
-}
 .pointer:hover {
   cursor: pointer;
+}
+.start-stop {
+  color: #FF6347;
+  font-size: 1.5em;
+  left: 50vw;
+  position: absolute;
+  top: 50vh;
+  transform: translate(-50%, -50%);
 }
 .work-area--default {
   background-color: #FB9C6C;
