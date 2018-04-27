@@ -5,14 +5,15 @@ let changeTitle = function () {
   } else {
     document.title = this.mode.toUpperCase() + " TIME!";
   }
-};
+}
 let countDown = function () {
   if (this.timer.remainingDuration === 0) {
     this.timer.remainingDuration = null;
     clearInterval(this.controller);
-    this.$dispatch("switch-mode", this.timer.description);
+    this.$emit("switch-mode", this.timer.description);
+  } else {
+    this.timer.remainingDuration -= 1;
   }
-  this.timer.remainingDuration -= 1;
 }
 let computedCSSClasses = function () {
   let temp = {};
@@ -20,31 +21,35 @@ let computedCSSClasses = function () {
   temp[this.timer.CSSClasses.on] = (this.mode === this.timer.description) && this.isTimerOn;
   temp[this.timer.CSSClasses.off] = (this.mode !== this.timer.description) && this.isTimerOn;
   return temp;
-};
+}
+let controller = function () {
+  if ((this.mode === this.timer.description) && this.isTimerOn) {
+    this.timer.remainingDuration = this.timer.fullDuration;
+    return setInterval(this.countDown.bind(this), 1000);
+  }
+  return null;
+}
 let decrementByOneMinute = function (duration) {
   return (duration > 60) ? (duration - 60) : 60;
-};
+}
 let formatTimerDisplay = function (timerDisplay) {
   let seconds = timerDisplay % 60;
   return Math.trunc(timerDisplay / 60) + ":" + ((seconds < 10) ? "0" : "") + seconds;
-};
+}
 let incrementByOneMinute = function (duration) {
   return duration + 60;
-};
-let startOrStop = function () {
-  if ((this.mode === this.timer.description) && this.isTimerOn) {
-    this.timer.remainingDuration = this.timer.fullDuration;
-    this.controller = setInterval(this.countDown.bind(this), 1000);
-  } else if (!this.isTimerOn) {
+}
+let stop = function () {
+ if ((!this.isTimerOn) && (this.mode === this.timer.description)) {
     this.timer.remainingDuration = null;
     clearInterval(this.controller);
   }
-};
+}
 let switchMode = function (currentMode) {
   if (currentMode === "break") {
-    mode = "work";
+    this.mode = "work";
   } else if (currentMode === "work") {
-    mode = "break";
+    this.mode = "break";
   }
 }
 let switchTimer = function () {
@@ -105,12 +110,12 @@ Vue.component("timer-operator", {
 Vue.component("timer-area", {
   computed: {
     computedCSSClasses: computedCSSClasses,
-    timerDisplay: timerDisplay
+    controller: controller,
+    timerDisplay: timerDisplay,
   },
   data: function () {
     return {
-      buttonSpecs: buttonSpecs,
-      controller: null
+      buttonSpecs: buttonSpecs
     };
   },
   methods: {
@@ -118,7 +123,7 @@ Vue.component("timer-area", {
     formatTimerDisplay: formatTimerDisplay
   },
   watch: {
-    isTimerOn: startOrStop
+    isTimerOn: stop
   },
   props: ["isTimerOn", "mode", "timer"],
   template: `
@@ -151,17 +156,13 @@ let app = new Vue ({
   data: {
     isTimerOn: false,
     mode: "", //"break" or "work"
-    timers: areaSpecs,
-    work: areaSpecs.work
-  },
-  events: {
-    "switch-mode": switchMode
+    timers: areaSpecs
   },
   methods: {
+    switchMode: switchMode,
     switchTimer: switchTimer
   },
   watch: {
     mode: changeTitle
   }
 });
-//

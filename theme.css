@@ -28,9 +28,9 @@ html, body {
 }
 .start-stop {
   justify-content: center;
-  position: absolute;
+  position: fixed;
   width: 100vw;
-  z-index: 1;
+  z-index: 100;
 }
 .start-stop__span {
   color:#FF6347;
