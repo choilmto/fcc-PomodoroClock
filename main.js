@@ -22,15 +22,18 @@ let computedCSSClasses = function () {
   temp[this.timer.CSSClasses.off] = (this.mode !== this.timer.description) && this.isTimerOn;
   return temp;
 }
-let controller = function () {
+/*let controller = function () {
   if ((this.mode === this.timer.description) && this.isTimerOn) {
     this.timer.remainingDuration = this.timer.fullDuration;
     return setInterval(this.countDown.bind(this), 1000);
   }
   return null;
-}
+}*/
 let decrementByOneMinute = function (duration) {
   return (duration > 60) ? (duration - 60) : 60;
+}
+let formatDescription = function () {
+  return this.timer.description.charAt(0).toUpperCase() + this.timer.description.slice(1) + " Time";
 }
 let formatTimerDisplay = function (timerDisplay) {
   let seconds = timerDisplay % 60;
@@ -39,8 +42,14 @@ let formatTimerDisplay = function (timerDisplay) {
 let incrementByOneMinute = function (duration) {
   return duration + 60;
 }
+let modeWatcher = function () {
+  if (this.mode === this.timer.description) {
+    this.timer.remainingDuration = this.timer.fullDuration;
+    this.controller =  setInterval(this.countDown.bind(this), 1000);
+  }
+}
 let stop = function () {
- if ((!this.isTimerOn) && (this.mode === this.timer.description)) {
+ if (!this.isTimerOn) {
     this.timer.remainingDuration = null;
     clearInterval(this.controller);
   }
@@ -110,20 +119,23 @@ Vue.component("timer-operator", {
 Vue.component("timer-area", {
   computed: {
     computedCSSClasses: computedCSSClasses,
-    controller: controller,
+    //controller: controller,
     timerDisplay: timerDisplay,
   },
   data: function () {
     return {
-      buttonSpecs: buttonSpecs
+      buttonSpecs: buttonSpecs,
+      controller: null
     };
   },
   methods: {
     countDown: countDown,
+    formatDescription: formatDescription,
     formatTimerDisplay: formatTimerDisplay
   },
   watch: {
-    isTimerOn: stop
+    isTimerOn: stop,
+    mode: modeWatcher
   },
   props: ["isTimerOn", "mode", "timer"],
   template: `
@@ -131,7 +143,7 @@ Vue.component("timer-area", {
                 v-bind:class="computedCSSClasses">
                 <div class="flex-container__div--center">
                   <div>
-                    {{timer.description}}
+                    {{formatDescription()}}
                   </div>
                   <timer-operator
                     v-bind:button="buttonSpecs.increment"
