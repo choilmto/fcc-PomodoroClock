@@ -22,13 +22,6 @@ let computedCSSClasses = function () {
   temp[this.timer.CSSClasses.off] = (this.mode !== this.timer.description) && this.isTimerOn;
   return temp;
 }
-/*let controller = function () {
-  if ((this.mode === this.timer.description) && this.isTimerOn) {
-    this.timer.remainingDuration = this.timer.fullDuration;
-    return setInterval(this.countDown.bind(this), 1000);
-  }
-  return null;
-}*/
 let decrementByOneMinute = function (duration) {
   return (duration > 60) ? (duration - 60) : 60;
 }
@@ -119,7 +112,6 @@ Vue.component("timer-operator", {
 Vue.component("timer-area", {
   computed: {
     computedCSSClasses: computedCSSClasses,
-    //controller: controller,
     timerDisplay: timerDisplay,
   },
   data: function () {

@@ -7,27 +7,19 @@
   </head>
   <body>
     <div id="app">
-      <!--<div class="flex-container start-stop">
-        <span class="flex-container__span start-stop__span">
-          <i class="pointer"
-             v-bind:class="{'fas fa-play': !isTimerOn, 'fas fa-square': isTimerOn}"
-             v-on:click="switchTimer">
-          </i>
-        </span>
-    </div>-->
-    <i class="pointer start-stop"
-       v-bind:class="{'fas fa-play': !isTimerOn, 'fas fa-square': isTimerOn}"
-       v-on:click="switchTimer">
-    </i>
-    <div class="flex-container">
-      <timer-area
-        v-for="timer in timers"
-        v-bind:is-timer-on="isTimerOn"
-        v-bind:mode="mode"
-        v-bind:timer="timer"
-        v-on:switch-mode="switchMode">
-      ></timer-area>
-    </div>
+      <i class="pointer start-stop"
+         v-bind:class="{'fas fa-play': !isTimerOn, 'fas fa-square': isTimerOn}"
+         v-on:click="switchTimer">
+      </i>
+      <div class="flex-container">
+        <timer-area
+          v-for="timer in timers"
+          v-bind:is-timer-on="isTimerOn"
+          v-bind:mode="mode"
+          v-bind:timer="timer"
+          v-on:switch-mode="switchMode">
+        ></timer-area>
+      </div>
     </div>
     <script src="vue.js"></script>
     <script src="main.js"></script>
